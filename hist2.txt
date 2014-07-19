@@ -1,0 +1,29 @@
+yes | head -13 | awk 'BEGIN { x=3; } { print "pig -param srctbl=BPS -param fldnum=" x " -f findDataType.pig > findDataType" x ".log 2>&1 "; x++; }' > runbps.sh
+chmod +x runbps.sh
+nohup runbps.sh > runbps.log 2>&1 &
+
+nohup dt.sh CBD > dtCBD.log 2>&1 &
+
+hadoop fs -ls /data/AirQuality/Fire/Fixed | grep AirQual | grep -v AirDens | cut -f6 -d'/' | awk '{ print "time dt.sh " $1 " > dt" $1".log 2>&1 " }' > dtAll.sh
+chmod +x dtAll.sh 
+nohup dtAll.sh > dtAll.log 2>&1 &
+
+time ldcsv2hive.sh /media/sf_Xfer/CONUS/FDIST.csv > logs/retryFDIST.log 2>&1 &
+
+nohup dtAll.sh > dtAll2.log 2>&1 &
+
+vi newColDefs.sh
+chmod +x newColDefs.sh
+
+ls coltypes | cut -f1 -d'.' | awk '{ print "time newColDefs.sh " $1 }' > redefTbls.sh
+nohup redefTbls.sh > redefTbls.log 2>&1 &
+
+
+ls coltypes | cut -f1 -d'.' | awk '{ print "time parm1file.sh " $1 " > p1" $1 ".log 2>&1 " }' > parmAll.sh
+chmod +x parmAll.sh
+nohup parmAll.sh > parmAll.log 2>&1 &
+hadoop fs -ls -R /data/AirQuality/Delimiters | grep part | awk '{ print $5 " " $8 }' | sed 's/ //g' | awk -F'/' '{ if ($1 == 0) print $5 "|" $6 }' > allowedDelimiters.txt
+hadoop fs -rm -R -skipTrash /data/AirQuality/Delimiters
+hadoop fs -mkdir /data/AirQuality/Delimiters
+hadoop fs -put allowedDelimiters.txt /data/AirQuality/Delimiters
+
