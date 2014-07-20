@@ -10,9 +10,18 @@ import org.apache.pig.data.TupleFactory;
 
 public class ReplaceCommas extends EvalFunc<String> {
 
-	// should probably make this part of a constructor
-	private static char repl = '|';
+	private static char repl;
 	
+	public ReplaceCommas() {
+		super();
+		repl = '|';		// default delimiter
+	}
+
+	public ReplaceCommas(String delimit) {
+		super();
+		repl = delimit.charAt(0);
+	}
+
 	public static void main(String[] args) {
 		Tuple testTuple = TupleFactory.getInstance().newTuple(1);
 		try {
