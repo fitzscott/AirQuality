@@ -5,12 +5,16 @@
 # name.  The column files have lowercase names, so tweak a bit.
 
 DATAFILE=$1
-COLFILE=`echo ${DATAFILE} | awk '{ print tolower($1); }'`
+# original run (Fire) had different case for column files.
+# second set (EPA) has same (upper) case
+#COLFILE=`echo ${DATAFILE} | awk '{ print tolower($1); }'`
+COLFILE=${DATAFILE}
 
 echo "Redefining ${DATAFILE} table to AirQuality `date`"
 
 . aq.env
-FIXDIR=${HDFSDIR}/Fire/Fixed
+#FIXDIR=${HDFSDIR}/Fire/Fixed
+FIXDIR=/data/AirQuality/EPA/Fixed
 
 # now make a Hive table with the calculated data types for columns.
 

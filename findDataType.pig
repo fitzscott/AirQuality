@@ -1,6 +1,6 @@
 -- findDataType.pig - take a file name and a column number, and
 -- determine what the likely data type of that column in that file is.
--- Save results into an HDFS file for later consolidation & Hive table definition.
+-- Save results into HDFS filees for later Hive table definitions.
 
 REGISTER 'hiveDTGuesser.jar'
 
