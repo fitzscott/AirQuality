@@ -1,0 +1,6 @@
+USE AirQuality;
+
+ANALYZE TABLE EPA_all
+    PARTITION (pollutant)
+    COMPUTE STATISTICS ;
+
