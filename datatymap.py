@@ -18,7 +18,7 @@ for line in sys.stdin:
         if re.match(re_int, col):
             dty = "INT"
         elif re.match(re_float, col):
-            dty = "FLOAT"
+            dty = "DOUBLE"
         elif re.match(re_date, col):
             dty = "DATE"
         else:
@@ -26,5 +26,5 @@ for line in sys.stdin:
         if (retval != ""):
             retval += "|"
         retval += dty
-    print ('%d\t%s') % (i, retval)
+    print ('%d\t%s') % (0, retval)
 

@@ -4,11 +4,11 @@ import sys
 
 dty = []
 lncnt = 0
-typesetter = {("INT", "INT"): "INT", ("INT", "FLOAT"): "FLOAT",
+typesetter = {("INT", "INT"): "INT", ("INT", "DOUBLE"): "DOUBLE",
               ("INT", "DATE"): "STRING", 
-              ("FLOAT", "INT"): "FLOAT", ("FLOAT", "FLOAT"): "FLOAT",
-              ("FLOAT", "DATE"): "STRING", 
-              ("DATE", "INT"): "STRING", ("DATE", "FLOAT"): "STRING",
+              ("DOUBLE", "INT"): "DOUBLE", ("DOUBLE", "DOUBLE"): "DOUBLE",
+              ("DOUBLE", "DATE"): "STRING", 
+              ("DATE", "INT"): "STRING", ("DATE", "DOUBLE"): "STRING",
               ("DATE", "DATE"): "DATE" }
 
 for line in sys.stdin:
@@ -29,4 +29,4 @@ for line in sys.stdin:
         if (dty[j], collist[j]) in typesetter:
             dty[j] = typesetter[(dty[j], collist[j])]
 
-print ("%d\t%s") % (lncnt, "|".join(dty))
+print ("%d\t%s") % (0, "|".join(dty))
