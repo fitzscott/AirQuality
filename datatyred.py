@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 
 dty = []
 lncnt = 0
@@ -11,11 +12,14 @@ typesetter = {("INT", "INT"): "INT", ("INT", "DOUBLE"): "DOUBLE",
               ("DATE", "INT"): "STRING", ("DATE", "DOUBLE"): "STRING",
               ("DATE", "DATE"): "DATE" }
 
+# Find delimiter from environment, if available
+delim = os.getenv('DELIM', '|')
+
 for line in sys.stdin:
     lncnt += 1
     line = line.strip()
     val, cols = line.split('\t')
-    collist = cols.split('|')
+    collist = cols.split(delim)
     if len(dty) == 0:
         for i in range(len(collist)):
             dty.append(collist[i])
@@ -29,4 +33,4 @@ for line in sys.stdin:
         if (dty[j], collist[j]) in typesetter:
             dty[j] = typesetter[(dty[j], collist[j])]
 
-print ("%d\t%s") % (0, "|".join(dty))
+print ("%d\t%s") % (0, delim.join(dty))
